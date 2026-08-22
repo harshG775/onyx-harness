@@ -1,11 +1,24 @@
 import { useState } from "react"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createServerFn } from "@tanstack/react-start"
 import { authClient } from "#/lib/auth-client"
+import { db } from "#/lib/db"
+import { user } from "#/lib/db/schema"
 
-export const Route = createFileRoute("/login")({ component: Login })
+const checkHasUsers = createServerFn({ method: "GET" }).handler(async () => {
+    const existing = await db.select({ id: user.id }).from(user).limit(1)
+    return { hasUsers: existing.length > 0 }
+})
+
+export const Route = createFileRoute("/login")({
+    loader: () => checkHasUsers(),
+    component: Login,
+})
 
 function Login() {
+    const { hasUsers } = Route.useLoaderData()
     const navigate = useNavigate()
+    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState<string | null>(null)
@@ -16,15 +29,14 @@ function Login() {
         setError(null)
         setIsSubmitting(true)
 
-        const { error: signInError } = await authClient.signIn.email({
-            email,
-            password,
-        })
+        const { error: authError } = hasUsers
+            ? await authClient.signIn.email({ email, password })
+            : await authClient.signUp.email({ name, email, password })
 
         setIsSubmitting(false)
 
-        if (signInError) {
-            setError(signInError.message ?? "Failed to sign in")
+        if (authError) {
+            setError(authError.message ?? "Something went wrong")
             return
         }
 
@@ -34,7 +46,30 @@ function Login() {
     return (
         <div className="flex min-h-screen items-center justify-center p-8">
             <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
-                <h1 className="text-2xl font-bold">Sign in</h1>
+                <h1 className="text-2xl font-bold">
+                    {hasUsers ? "Sign in" : "Set up your account"}
+                </h1>
+                {!hasUsers && (
+                    <p className="text-sm text-gray-600">
+                        No account exists yet. Create the owner account to get started.
+                    </p>
+                )}
+
+                {!hasUsers && (
+                    <div className="space-y-1">
+                        <label htmlFor="name" className="block text-sm font-medium">
+                            Name
+                        </label>
+                        <input
+                            id="name"
+                            type="text"
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full rounded border border-gray-300 px-3 py-2"
+                        />
+                    </div>
+                )}
 
                 <div className="space-y-1">
                     <label htmlFor="email" className="block text-sm font-medium">
@@ -71,7 +106,13 @@ function Login() {
                     disabled={isSubmitting}
                     className="w-full rounded bg-black px-3 py-2 text-white disabled:opacity-50"
                 >
-                    {isSubmitting ? "Signing in..." : "Sign in"}
+                    {isSubmitting
+                        ? hasUsers
+                            ? "Signing in..."
+                            : "Creating account..."
+                        : hasUsers
+                          ? "Sign in"
+                          : "Create account"}
                 </button>
             </form>
         </div>
