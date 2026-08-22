@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { createServerFn } from "@tanstack/react-start"
-import { authClient } from "#/lib/auth-client"
+import { authClient } from "#/lib/auth/auth-client"
 import { db } from "#/lib/db"
 import { user } from "#/lib/db/schema"
 
@@ -10,7 +10,7 @@ const checkHasUsers = createServerFn({ method: "GET" }).handler(async () => {
     return { hasUsers: existing.length > 0 }
 })
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_public/login")({
     loader: () => checkHasUsers(),
     component: Login,
 })
@@ -37,6 +37,12 @@ function Login() {
 
         if (authError) {
             setError(authError.message ?? "Something went wrong")
+            return
+        }
+
+        const query = window.location.search
+        if (query) {
+            window.location.href = `/api/auth/oauth2/authorize${query}`
             return
         }
 

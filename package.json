@@ -20,6 +20,9 @@
         "db:studio": "drizzle-kit studio"
     },
     "dependencies": {
+        "@better-auth/cimd": "^1.7.1",
+        "@better-auth/mcp": "1.7.1",
+        "@better-auth/oauth-provider": "1.7.1",
         "@modelcontextprotocol/sdk": "^1.27.1",
         "@t3-oss/env-core": "^0.13.11",
         "@tailwindcss/vite": "^4.1.18",
