@@ -1,5 +1,4 @@
 import { env } from "#/env"
-import "dotenv/config"
 import { drizzle } from "drizzle-orm/node-sqlite"
 import { DatabaseSync } from "node:sqlite"
 import { relations } from "./relations"
