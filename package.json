@@ -12,7 +12,12 @@
         "preview": "vite preview",
         "lint": "eslint",
         "format": "prettier --write . && eslint --fix",
-        "check": "prettier --check ."
+        "check": "prettier --check .",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "drizzle-kit migrate",
+        "db:push": "drizzle-kit push",
+        "db:pull": "drizzle-kit pull",
+        "db:studio": "drizzle-kit studio"
     },
     "dependencies": {
         "@modelcontextprotocol/sdk": "^1.27.1",
@@ -21,6 +26,8 @@
         "@tanstack/react-router": "latest",
         "@tanstack/react-router-devtools": "latest",
         "@tanstack/react-start": "latest",
+        "dotenv": "^17.4.2",
+        "drizzle-orm": "1.0.0-rc.4",
         "nitro": "3.0.260610-beta",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
@@ -35,8 +42,10 @@
         "@types/react": "^19.2.0",
         "@types/react-dom": "^19.2.0",
         "@vitejs/plugin-react": "^6.0.1",
+        "drizzle-kit": "1.0.0-rc.4",
         "eslint": "^9.20.0",
         "prettier": "^3.8.1",
+        "tsx": "^4.23.12",
         "typescript": "^6.0.2",
         "vite": "^8.0.0"
     }
