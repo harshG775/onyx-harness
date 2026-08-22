@@ -10,117 +10,59 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as McpRouteImport } from './routes/mcp'
-import { Route as DotwellKnownOauthAuthorizationServerRouteImport } from './routes/[.]well-known.oauth-authorization-server'
-import { Route as DotwellKnownOauthProtectedResourceRouteImport } from './routes/[.]well-known.oauth-protected-resource'
-import { Route as OauthAuthorizeRouteImport } from './routes/oauth.authorize'
-import { Route as OauthRegisterRouteImport } from './routes/oauth.register'
-import { Route as OauthTokenRouteImport } from './routes/oauth.token'
+import { Route as ApiV1McpRouteImport } from './routes/api/v1/mcp'
+import { Route as ApiV1DotwellKnownOauthProtectedResourceRouteImport } from './routes/api/v1/[.]well-known/oauth-protected-resource'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
+const ApiV1McpRoute = ApiV1McpRouteImport.update({
+  id: '/api/v1/mcp',
+  path: '/api/v1/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DotwellKnownOauthAuthorizationServerRoute =
-  DotwellKnownOauthAuthorizationServerRouteImport.update({
-    id: '/.well-known/oauth-authorization-server',
-    path: '/.well-known/oauth-authorization-server',
+const ApiV1DotwellKnownOauthProtectedResourceRoute =
+  ApiV1DotwellKnownOauthProtectedResourceRouteImport.update({
+    id: '/api/v1/.well-known/oauth-protected-resource',
+    path: '/api/v1/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
-const DotwellKnownOauthProtectedResourceRoute =
-  DotwellKnownOauthProtectedResourceRouteImport.update({
-    id: '/.well-known/oauth-protected-resource',
-    path: '/.well-known/oauth-protected-resource',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const OauthAuthorizeRoute = OauthAuthorizeRouteImport.update({
-  id: '/oauth/authorize',
-  path: '/oauth/authorize',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OauthRegisterRoute = OauthRegisterRouteImport.update({
-  id: '/oauth/register',
-  path: '/oauth/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OauthTokenRoute = OauthTokenRouteImport.update({
-  id: '/oauth/token',
-  path: '/oauth/token',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/mcp': typeof McpRoute
-  '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
-  '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
-  '/oauth/authorize': typeof OauthAuthorizeRoute
-  '/oauth/register': typeof OauthRegisterRoute
-  '/oauth/token': typeof OauthTokenRoute
+  '/api/v1/mcp': typeof ApiV1McpRoute
+  '/api/v1/.well-known/oauth-protected-resource': typeof ApiV1DotwellKnownOauthProtectedResourceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/mcp': typeof McpRoute
-  '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
-  '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
-  '/oauth/authorize': typeof OauthAuthorizeRoute
-  '/oauth/register': typeof OauthRegisterRoute
-  '/oauth/token': typeof OauthTokenRoute
+  '/api/v1/mcp': typeof ApiV1McpRoute
+  '/api/v1/.well-known/oauth-protected-resource': typeof ApiV1DotwellKnownOauthProtectedResourceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/mcp': typeof McpRoute
-  '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
-  '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
-  '/oauth/authorize': typeof OauthAuthorizeRoute
-  '/oauth/register': typeof OauthRegisterRoute
-  '/oauth/token': typeof OauthTokenRoute
+  '/api/v1/mcp': typeof ApiV1McpRoute
+  '/api/v1/.well-known/oauth-protected-resource': typeof ApiV1DotwellKnownOauthProtectedResourceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/mcp'
-    | '/.well-known/oauth-authorization-server'
-    | '/.well-known/oauth-protected-resource'
-    | '/oauth/authorize'
-    | '/oauth/register'
-    | '/oauth/token'
+    '/' | '/api/v1/mcp' | '/api/v1/.well-known/oauth-protected-resource'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/mcp'
-    | '/.well-known/oauth-authorization-server'
-    | '/.well-known/oauth-protected-resource'
-    | '/oauth/authorize'
-    | '/oauth/register'
-    | '/oauth/token'
+  to: '/' | '/api/v1/mcp' | '/api/v1/.well-known/oauth-protected-resource'
   id:
     | '__root__'
     | '/'
-    | '/mcp'
-    | '/.well-known/oauth-authorization-server'
-    | '/.well-known/oauth-protected-resource'
-    | '/oauth/authorize'
-    | '/oauth/register'
-    | '/oauth/token'
+    | '/api/v1/mcp'
+    | '/api/v1/.well-known/oauth-protected-resource'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  McpRoute: typeof McpRoute
-  DotwellKnownOauthAuthorizationServerRoute: typeof DotwellKnownOauthAuthorizationServerRoute
-  DotwellKnownOauthProtectedResourceRoute: typeof DotwellKnownOauthProtectedResourceRoute
-  OauthAuthorizeRoute: typeof OauthAuthorizeRoute
-  OauthRegisterRoute: typeof OauthRegisterRoute
-  OauthTokenRoute: typeof OauthTokenRoute
+  ApiV1McpRoute: typeof ApiV1McpRoute
+  ApiV1DotwellKnownOauthProtectedResourceRoute: typeof ApiV1DotwellKnownOauthProtectedResourceRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -132,46 +74,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
+    '/api/v1/mcp': {
+      id: '/api/v1/mcp'
+      path: '/api/v1/mcp'
+      fullPath: '/api/v1/mcp'
+      preLoaderRoute: typeof ApiV1McpRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.well-known/oauth-authorization-server': {
-      id: '/.well-known/oauth-authorization-server'
-      path: '/.well-known/oauth-authorization-server'
-      fullPath: '/.well-known/oauth-authorization-server'
-      preLoaderRoute: typeof DotwellKnownOauthAuthorizationServerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.well-known/oauth-protected-resource': {
-      id: '/.well-known/oauth-protected-resource'
-      path: '/.well-known/oauth-protected-resource'
-      fullPath: '/.well-known/oauth-protected-resource'
-      preLoaderRoute: typeof DotwellKnownOauthProtectedResourceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/oauth/authorize': {
-      id: '/oauth/authorize'
-      path: '/oauth/authorize'
-      fullPath: '/oauth/authorize'
-      preLoaderRoute: typeof OauthAuthorizeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/oauth/register': {
-      id: '/oauth/register'
-      path: '/oauth/register'
-      fullPath: '/oauth/register'
-      preLoaderRoute: typeof OauthRegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/oauth/token': {
-      id: '/oauth/token'
-      path: '/oauth/token'
-      fullPath: '/oauth/token'
-      preLoaderRoute: typeof OauthTokenRouteImport
+    '/api/v1/.well-known/oauth-protected-resource': {
+      id: '/api/v1/.well-known/oauth-protected-resource'
+      path: '/api/v1/.well-known/oauth-protected-resource'
+      fullPath: '/api/v1/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof ApiV1DotwellKnownOauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -179,14 +93,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  McpRoute: McpRoute,
-  DotwellKnownOauthAuthorizationServerRoute:
-    DotwellKnownOauthAuthorizationServerRoute,
-  DotwellKnownOauthProtectedResourceRoute:
-    DotwellKnownOauthProtectedResourceRoute,
-  OauthAuthorizeRoute: OauthAuthorizeRoute,
-  OauthRegisterRoute: OauthRegisterRoute,
-  OauthTokenRoute: OauthTokenRoute,
+  ApiV1McpRoute: ApiV1McpRoute,
+  ApiV1DotwellKnownOauthProtectedResourceRoute:
+    ApiV1DotwellKnownOauthProtectedResourceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

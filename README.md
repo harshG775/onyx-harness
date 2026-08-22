@@ -32,7 +32,6 @@ If you prefer not to use Tailwind CSS:
 
 ## Linting & Formatting
 
-
 This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
 
 ```bash
@@ -40,7 +39,6 @@ pnpm lint
 pnpm format
 pnpm check
 ```
-
 
 ## Deploy with Nitro
 
@@ -54,8 +52,6 @@ node dist/server/index.mjs
 The build output is a self-contained Node server. To deploy, push the `dist/` directory to your host (Render, Fly.io, your own VPS, etc.) and run the server command above.
 
 For host-specific presets (Vercel, Netlify, Cloudflare, AWS Lambda, etc.) and tuning, see https://v3.nitro.build/deploy.
-
-
 
 ## Routing
 
@@ -74,7 +70,7 @@ Now that you have two routes you can use a `Link` component to navigate between 
 To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
 
 ```tsx
-import { Link } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router"
 ```
 
 Then anywhere in your JSX you can use it like so:
@@ -94,33 +90,33 @@ In the File Based Routing setup the layout is located in `src/routes/__root.tsx`
 Here is an example layout that includes a header:
 
 ```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
+    head: () => ({
+        meta: [
+            { charSet: "utf-8" },
+            { name: "viewport", content: "width=device-width, initial-scale=1" },
+            { title: "My App" },
+        ],
+    }),
+    shellComponent: ({ children }) => (
+        <html lang="en">
+            <head>
+                <HeadContent />
+            </head>
+            <body>
+                <header>
+                    <nav>
+                        <Link to="/">Home</Link>
+                        <Link to="/about">About</Link>
+                    </nav>
+                </header>
+                {children}
+                <Scripts />
+            </body>
+        </html>
+    ),
 })
 ```
 
@@ -131,23 +127,23 @@ More information on layouts can be found in the [Layouts documentation](https://
 TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
 
 ```tsx
-import { createServerFn } from '@tanstack/react-start'
+import { createServerFn } from "@tanstack/react-start"
 
 const getServerTime = createServerFn({
-  method: 'GET',
+    method: "GET",
 }).handler(async () => {
-  return new Date().toISOString()
+    return new Date().toISOString()
 })
 
 // Use in a component
 function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
+    const [time, setTime] = useState("")
+
+    useEffect(() => {
+        getServerTime().then(setTime)
+    }, [])
+
+    return <div>Server time: {time}</div>
 }
 ```
 
@@ -156,15 +152,15 @@ function MyComponent() {
 You can create API routes by using the `server` property in your route definitions:
 
 ```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
+import { createFileRoute } from "@tanstack/react-router"
+import { json } from "@tanstack/react-start"
 
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
+export const Route = createFileRoute("/api/hello")({
+    server: {
+        handlers: {
+            GET: () => json({ message: "Hello, World!" }),
+        },
     },
-  },
 })
 ```
 
@@ -175,31 +171,29 @@ There are multiple ways to fetch data in your application. You can use TanStack 
 For example:
 
 ```tsx
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
+export const Route = createFileRoute("/people")({
+    loader: async () => {
+        const response = await fetch("https://swapi.dev/api/people")
+        return response.json()
+    },
+    component: PeopleComponent,
 })
 
 function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
+    const data = Route.useLoaderData()
+    return (
+        <ul>
+            {data.results.map((person) => (
+                <li key={person.name}>{person.name}</li>
+            ))}
+        </ul>
+    )
 }
 ```
 
 Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-
 
 ## Obsidian Vault MCP Server
 
@@ -210,15 +204,15 @@ markdown notes in an Obsidian vault on disk.
 ### Setup
 
 1. Copy `.env.example` to `.env` and set the two required variables:
-   - `OBSIDIAN_VAULT_PATH` — absolute path to the vault folder on disk
-     (e.g. shared storage inside Termux on Android).
-   - `MCP_AUTH_TOKEN` — a long random secret (e.g. `openssl rand -hex 32`)
-     that clients must send as a bearer token.
+    - `OBSIDIAN_VAULT_PATH` — absolute path to the vault folder on disk
+      (e.g. shared storage inside Termux on Android).
+    - `MCP_AUTH_TOKEN` — a long random secret (e.g. `openssl rand -hex 32`)
+      that clients must send as a bearer token.
 2. Start the dev server:
 
-   ```bash
-   pnpm dev
-   ```
+    ```bash
+    pnpm dev
+    ```
 
 3. Point your MCP client at `http://localhost:3000/mcp`, sending
    `Authorization: Bearer <MCP_AUTH_TOKEN>` on every request. Requests
