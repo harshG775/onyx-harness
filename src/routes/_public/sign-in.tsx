@@ -39,6 +39,13 @@ function Login() {
             setError(authError.message ?? "Something went wrong")
             return
         }
+
+        const query = window.location.search
+        if (query) {
+            window.location.href = `/api/auth/oauth2/authorize${query}`
+            return
+        }
+
         navigate({ to: "/" })
     }
 

@@ -5,7 +5,7 @@ import { db } from "../db"
 import * as schema from "#/lib/db/schema/index"
 import { env } from "#/env"
 import { jwt } from "better-auth/plugins"
-import { oauthProvider } from "@better-auth/oauth-provider"; 
+import { mcp } from "@better-auth/mcp"
 
 export const MCP_RESOURCE = `${env.SERVER_URL}/mcp`
 
@@ -20,11 +20,12 @@ export const auth = betterAuth({
     },
     plugins: [
         jwt(),
-        oauthProvider({
+        mcp({
             loginPage: "/sign-in",
             consentPage: "/consent",
             resource: MCP_RESOURCE,
-            mcp: true 
+            allowDynamicClientRegistration: true,
+            allowUnauthenticatedClientRegistration: true,
         }),
         tanstackStartCookies(),
     ],

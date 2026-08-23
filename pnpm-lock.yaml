@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@better-auth/mcp':
+        specifier: ^1.7.1
+        version: 1.7.1(@better-auth/core@1.7.1(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.4.0(zod@4.4.3))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.2))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-auth@1.7.1(@tanstack/react-start@1.168.48(crossws@0.4.11(srvx@0.11.22))(esbuild@0.28.2)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(rolldown@1.2.5)(supports-color@7.2.0)(vite@8.2.2(@types/node@22.20.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)))(drizzle-kit@1.0.0-rc.4)(drizzle-orm@1.0.0-rc.4(zod@4.4.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.15))(better-call@1.4.0(zod@4.4.3))
       '@better-auth/oauth-provider':
         specifier: ^1.7.1
         version: 1.7.1(@better-auth/core@1.7.1(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.4.0(zod@4.4.3))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.2))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-auth@1.7.1(@tanstack/react-start@1.168.48(crossws@0.4.11(srvx@0.11.22))(esbuild@0.28.2)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(rolldown@1.2.5)(supports-color@7.2.0)(vite@8.2.2(@types/node@22.20.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)))(drizzle-kit@1.0.0-rc.4)(drizzle-orm@1.0.0-rc.4(zod@4.4.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.15))(better-call@1.4.0(zod@4.4.3))
@@ -206,6 +209,13 @@ packages:
     peerDependenciesMeta:
       kysely:
         optional: true
+
+  '@better-auth/mcp@1.7.1':
+    resolution: {integrity: sha512-uBDWaaDPYQ2Q4QaesQVhZkaTSXrnFvW6Za0mr8lYTL2TvnKkzEWT0decyQGONwhswLLAlMGLKG4M2JeIATgGGA==}
+    peerDependencies:
+      '@better-auth/core': ^1.7.1
+      better-auth: ^1.7.1
+      better-call: 1.4.0
 
   '@better-auth/memory-adapter@1.7.1':
     resolution: {integrity: sha512-6NX1yv88DeqdoG7owYFqKwlrDGaIPhsC52JUGrUgeGVKyOq8a/6hHlHsqG1C2FwT23SHQiKVYCEAG9N6aH5OvQ==}
@@ -3416,6 +3426,17 @@ snapshots:
       '@better-auth/utils': 0.4.2
     optionalDependencies:
       kysely: 0.29.5
+
+  '@better-auth/mcp@1.7.1(@better-auth/core@1.7.1(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.4.0(zod@4.4.3))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.2))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-auth@1.7.1(@tanstack/react-start@1.168.48(crossws@0.4.11(srvx@0.11.22))(esbuild@0.28.2)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(rolldown@1.2.5)(supports-color@7.2.0)(vite@8.2.2(@types/node@22.20.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)))(drizzle-kit@1.0.0-rc.4)(drizzle-orm@1.0.0-rc.4(zod@4.4.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.15))(better-call@1.4.0(zod@4.4.3))':
+    dependencies:
+      '@better-auth/core': 1.7.1(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.4.0(zod@4.4.3))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.2)
+      '@better-auth/oauth-provider': 1.7.1(@better-auth/core@1.7.1(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.4.0(zod@4.4.3))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.2))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-auth@1.7.1(@tanstack/react-start@1.168.48(crossws@0.4.11(srvx@0.11.22))(esbuild@0.28.2)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(rolldown@1.2.5)(supports-color@7.2.0)(vite@8.2.2(@types/node@22.20.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)))(drizzle-kit@1.0.0-rc.4)(drizzle-orm@1.0.0-rc.4(zod@4.4.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.15))(better-call@1.4.0(zod@4.4.3))
+      better-auth: 1.7.1(@tanstack/react-start@1.168.48(crossws@0.4.11(srvx@0.11.22))(esbuild@0.28.2)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(rolldown@1.2.5)(supports-color@7.2.0)(vite@8.2.2(@types/node@22.20.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.12)))(drizzle-kit@1.0.0-rc.4)(drizzle-orm@1.0.0-rc.4(zod@4.4.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(solid-js@1.9.15)
+      better-call: 1.4.0(zod@4.4.3)
+      jose: 6.2.10
+    transitivePeerDependencies:
+      - '@better-auth/utils'
+      - '@better-fetch/fetch'
 
   '@better-auth/memory-adapter@1.7.1(@better-auth/core@1.7.1(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.4.0(zod@4.4.3))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.2))(@better-auth/utils@0.4.2)':
     dependencies:
