@@ -10,102 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DotwellKnownSplatRouteImport } from './routes/[.]well-known/$'
-import { Route as PublicConsentRouteImport } from './routes/_public/consent'
-import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
-import { Route as ApiV1McpRouteImport } from './routes/api/v1/mcp'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DotwellKnownSplatRoute = DotwellKnownSplatRouteImport.update({
-  id: '/.well-known/$',
-  path: '/.well-known/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PublicConsentRoute = PublicConsentRouteImport.update({
-  id: '/_public/consent',
-  path: '/consent',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PublicLoginRoute = PublicLoginRouteImport.update({
-  id: '/_public/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiV1McpRoute = ApiV1McpRouteImport.update({
-  id: '/api/v1/mcp',
-  path: '/api/v1/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/.well-known/$': typeof DotwellKnownSplatRoute
-  '/consent': typeof PublicConsentRoute
-  '/login': typeof PublicLoginRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/v1/mcp': typeof ApiV1McpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/.well-known/$': typeof DotwellKnownSplatRoute
-  '/consent': typeof PublicConsentRoute
-  '/login': typeof PublicLoginRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/v1/mcp': typeof ApiV1McpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/.well-known/$': typeof DotwellKnownSplatRoute
-  '/_public/consent': typeof PublicConsentRoute
-  '/_public/login': typeof PublicLoginRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/v1/mcp': typeof ApiV1McpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/.well-known/$'
-    | '/consent'
-    | '/login'
-    | '/api/auth/$'
-    | '/api/v1/mcp'
+  fullPaths: '/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/.well-known/$'
-    | '/consent'
-    | '/login'
-    | '/api/auth/$'
-    | '/api/v1/mcp'
-  id:
-    | '__root__'
-    | '/'
-    | '/.well-known/$'
-    | '/_public/consent'
-    | '/_public/login'
-    | '/api/auth/$'
-    | '/api/v1/mcp'
+  to: '/'
+  id: '__root__' | '/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DotwellKnownSplatRoute: typeof DotwellKnownSplatRoute
-  PublicConsentRoute: typeof PublicConsentRoute
-  PublicLoginRoute: typeof PublicLoginRoute
-  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  ApiV1McpRoute: typeof ApiV1McpRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -117,51 +48,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.well-known/$': {
-      id: '/.well-known/$'
-      path: '/.well-known/$'
-      fullPath: '/.well-known/$'
-      preLoaderRoute: typeof DotwellKnownSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_public/consent': {
-      id: '/_public/consent'
-      path: '/consent'
-      fullPath: '/consent'
-      preLoaderRoute: typeof PublicConsentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_public/login': {
-      id: '/_public/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof PublicLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/v1/mcp': {
-      id: '/api/v1/mcp'
-      path: '/api/v1/mcp'
-      fullPath: '/api/v1/mcp'
-      preLoaderRoute: typeof ApiV1McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DotwellKnownSplatRoute: DotwellKnownSplatRoute,
-  PublicConsentRoute: PublicConsentRoute,
-  PublicLoginRoute: PublicLoginRoute,
-  ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiV1McpRoute: ApiV1McpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
