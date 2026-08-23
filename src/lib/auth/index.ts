@@ -9,7 +9,7 @@ import { db } from "../db"
 import * as schema from "#/lib/db/schema/index"
 import { env } from "#/env"
 
-export const MCP_RESOURCE = `${env.SERVER_URL}/api/v1/mcp`
+export const MCP_RESOURCE = `${env.SERVER_URL}/mcp`
 
 export const auth = betterAuth({
     baseURL: env.SERVER_URL,
