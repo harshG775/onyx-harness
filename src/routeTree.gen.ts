@@ -14,10 +14,10 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as DotwellKnownOauthAuthorizationServerRouteImport } from './routes/[.]well-known/oauth-authorization-server'
 import { Route as DotwellKnownOauthProtectedResourceRouteImport } from './routes/[.]well-known/oauth-protected-resource'
 import { Route as PublicSignInRouteImport } from './routes/_public/sign-in'
-import { Route as Oauth2AuthorizeRouteImport } from './routes/oauth2/authorize'
-import { Route as Oauth2RegisterRouteImport } from './routes/oauth2/register'
-import { Route as Oauth2TokenRouteImport } from './routes/oauth2/token'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiAuthOauth2AuthorizeRouteImport } from './routes/api/auth/oauth2/authorize'
+import { Route as ApiAuthOauth2RegisterRouteImport } from './routes/api/auth/oauth2/register'
+import { Route as ApiAuthOauth2TokenRouteImport } from './routes/api/auth/oauth2/token'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,24 +46,24 @@ const PublicSignInRoute = PublicSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Oauth2AuthorizeRoute = Oauth2AuthorizeRouteImport.update({
-  id: '/oauth2/authorize',
-  path: '/oauth2/authorize',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Oauth2RegisterRoute = Oauth2RegisterRouteImport.update({
-  id: '/oauth2/register',
-  path: '/oauth2/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Oauth2TokenRoute = Oauth2TokenRouteImport.update({
-  id: '/oauth2/token',
-  path: '/oauth2/token',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthOauth2AuthorizeRoute = ApiAuthOauth2AuthorizeRouteImport.update({
+  id: '/api/auth/oauth2/authorize',
+  path: '/api/auth/oauth2/authorize',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthOauth2RegisterRoute = ApiAuthOauth2RegisterRouteImport.update({
+  id: '/api/auth/oauth2/register',
+  path: '/api/auth/oauth2/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthOauth2TokenRoute = ApiAuthOauth2TokenRouteImport.update({
+  id: '/api/auth/oauth2/token',
+  path: '/api/auth/oauth2/token',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -73,10 +73,10 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
   '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
   '/sign-in': typeof PublicSignInRoute
-  '/oauth2/authorize': typeof Oauth2AuthorizeRoute
-  '/oauth2/register': typeof Oauth2RegisterRoute
-  '/oauth2/token': typeof Oauth2TokenRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/auth/oauth2/authorize': typeof ApiAuthOauth2AuthorizeRoute
+  '/api/auth/oauth2/register': typeof ApiAuthOauth2RegisterRoute
+  '/api/auth/oauth2/token': typeof ApiAuthOauth2TokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,10 +84,10 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
   '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
   '/sign-in': typeof PublicSignInRoute
-  '/oauth2/authorize': typeof Oauth2AuthorizeRoute
-  '/oauth2/register': typeof Oauth2RegisterRoute
-  '/oauth2/token': typeof Oauth2TokenRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/auth/oauth2/authorize': typeof ApiAuthOauth2AuthorizeRoute
+  '/api/auth/oauth2/register': typeof ApiAuthOauth2RegisterRoute
+  '/api/auth/oauth2/token': typeof ApiAuthOauth2TokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -96,10 +96,10 @@ export interface FileRoutesById {
   '/.well-known/oauth-authorization-server': typeof DotwellKnownOauthAuthorizationServerRoute
   '/.well-known/oauth-protected-resource': typeof DotwellKnownOauthProtectedResourceRoute
   '/_public/sign-in': typeof PublicSignInRoute
-  '/oauth2/authorize': typeof Oauth2AuthorizeRoute
-  '/oauth2/register': typeof Oauth2RegisterRoute
-  '/oauth2/token': typeof Oauth2TokenRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/auth/oauth2/authorize': typeof ApiAuthOauth2AuthorizeRoute
+  '/api/auth/oauth2/register': typeof ApiAuthOauth2RegisterRoute
+  '/api/auth/oauth2/token': typeof ApiAuthOauth2TokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -109,10 +109,10 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-authorization-server'
     | '/.well-known/oauth-protected-resource'
     | '/sign-in'
-    | '/oauth2/authorize'
-    | '/oauth2/register'
-    | '/oauth2/token'
     | '/api/auth/$'
+    | '/api/auth/oauth2/authorize'
+    | '/api/auth/oauth2/register'
+    | '/api/auth/oauth2/token'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,10 +120,10 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-authorization-server'
     | '/.well-known/oauth-protected-resource'
     | '/sign-in'
-    | '/oauth2/authorize'
-    | '/oauth2/register'
-    | '/oauth2/token'
     | '/api/auth/$'
+    | '/api/auth/oauth2/authorize'
+    | '/api/auth/oauth2/register'
+    | '/api/auth/oauth2/token'
   id:
     | '__root__'
     | '/'
@@ -131,10 +131,10 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-authorization-server'
     | '/.well-known/oauth-protected-resource'
     | '/_public/sign-in'
-    | '/oauth2/authorize'
-    | '/oauth2/register'
-    | '/oauth2/token'
     | '/api/auth/$'
+    | '/api/auth/oauth2/authorize'
+    | '/api/auth/oauth2/register'
+    | '/api/auth/oauth2/token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -143,10 +143,10 @@ export interface RootRouteChildren {
   DotwellKnownOauthAuthorizationServerRoute: typeof DotwellKnownOauthAuthorizationServerRoute
   DotwellKnownOauthProtectedResourceRoute: typeof DotwellKnownOauthProtectedResourceRoute
   PublicSignInRoute: typeof PublicSignInRoute
-  Oauth2AuthorizeRoute: typeof Oauth2AuthorizeRoute
-  Oauth2RegisterRoute: typeof Oauth2RegisterRoute
-  Oauth2TokenRoute: typeof Oauth2TokenRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiAuthOauth2AuthorizeRoute: typeof ApiAuthOauth2AuthorizeRoute
+  ApiAuthOauth2RegisterRoute: typeof ApiAuthOauth2RegisterRoute
+  ApiAuthOauth2TokenRoute: typeof ApiAuthOauth2TokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -186,32 +186,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/oauth2/authorize': {
-      id: '/oauth2/authorize'
-      path: '/oauth2/authorize'
-      fullPath: '/oauth2/authorize'
-      preLoaderRoute: typeof Oauth2AuthorizeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/oauth2/register': {
-      id: '/oauth2/register'
-      path: '/oauth2/register'
-      fullPath: '/oauth2/register'
-      preLoaderRoute: typeof Oauth2RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/oauth2/token': {
-      id: '/oauth2/token'
-      path: '/oauth2/token'
-      fullPath: '/oauth2/token'
-      preLoaderRoute: typeof Oauth2TokenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/oauth2/authorize': {
+      id: '/api/auth/oauth2/authorize'
+      path: '/api/auth/oauth2/authorize'
+      fullPath: '/api/auth/oauth2/authorize'
+      preLoaderRoute: typeof ApiAuthOauth2AuthorizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/oauth2/register': {
+      id: '/api/auth/oauth2/register'
+      path: '/api/auth/oauth2/register'
+      fullPath: '/api/auth/oauth2/register'
+      preLoaderRoute: typeof ApiAuthOauth2RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/oauth2/token': {
+      id: '/api/auth/oauth2/token'
+      path: '/api/auth/oauth2/token'
+      fullPath: '/api/auth/oauth2/token'
+      preLoaderRoute: typeof ApiAuthOauth2TokenRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -225,10 +225,10 @@ const rootRouteChildren: RootRouteChildren = {
   DotwellKnownOauthProtectedResourceRoute:
     DotwellKnownOauthProtectedResourceRoute,
   PublicSignInRoute: PublicSignInRoute,
-  Oauth2AuthorizeRoute: Oauth2AuthorizeRoute,
-  Oauth2RegisterRoute: Oauth2RegisterRoute,
-  Oauth2TokenRoute: Oauth2TokenRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiAuthOauth2AuthorizeRoute: ApiAuthOauth2AuthorizeRoute,
+  ApiAuthOauth2RegisterRoute: ApiAuthOauth2RegisterRoute,
+  ApiAuthOauth2TokenRoute: ApiAuthOauth2TokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

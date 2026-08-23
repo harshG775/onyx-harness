@@ -76,7 +76,7 @@ function extractParams(source: URLSearchParams): Record<string, string> {
     return result
 }
 
-export const Route = createFileRoute("/oauth2/authorize")({
+export const Route = createFileRoute("/api/auth/oauth2/authorize")({
     server: {
         handlers: {
             GET: ({ request }) => {

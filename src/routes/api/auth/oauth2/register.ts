@@ -7,7 +7,7 @@ const registrationSchema = z.object({
     client_name: z.string().optional(),
 })
 
-export const Route = createFileRoute("/oauth2/register")({
+export const Route = createFileRoute("/api/auth/oauth2/register")({
     server: {
         handlers: {
             POST: async ({ request }) => {

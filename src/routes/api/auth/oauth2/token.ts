@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { oauth2Store } from "#/lib/oauth2-store"
 
-export const Route = createFileRoute("/oauth2/token")({
+export const Route = createFileRoute("/api/auth/oauth2/token")({
     server: {
         handlers: {
             POST: async ({ request }) => {
