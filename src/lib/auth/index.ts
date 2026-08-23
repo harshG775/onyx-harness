@@ -4,8 +4,10 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { db } from "../db"
 import * as schema from "#/lib/db/schema/index"
 import { env } from "#/env"
+import { jwt } from "better-auth/plugins"
+import { oauthProvider } from "@better-auth/oauth-provider"; 
 
-export const MCP_RESOURCE = `${env.SERVER_URL}/api/v1/mcp`
+export const MCP_RESOURCE = `${env.SERVER_URL}/mcp`
 
 export const auth = betterAuth({
     baseURL: env.SERVER_URL,
@@ -17,6 +19,13 @@ export const auth = betterAuth({
         enabled: true,
     },
     plugins: [
+        jwt(),
+        oauthProvider({
+            loginPage: "/sign-in",
+            consentPage: "/consent",
+            resource: MCP_RESOURCE,
+            mcp: true 
+        }),
         tanstackStartCookies(),
     ],
 })
