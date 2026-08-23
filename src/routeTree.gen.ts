@@ -37,9 +37,9 @@ const PublicSignInRoute = PublicSignInRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpIndexRoute = McpIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => McpRoute,
+  id: '/mcp/',
+  path: '/mcp/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -93,6 +93,7 @@ export interface RootRouteChildren {
   DotwellKnownSplatRoute: typeof DotwellKnownSplatRoute
   PublicConsentRoute: typeof PublicConsentRoute
   PublicSignInRoute: typeof PublicSignInRoute
+  McpIndexRoute: typeof McpIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -128,10 +129,10 @@ declare module '@tanstack/react-router' {
     }
     '/mcp/': {
       id: '/mcp/'
-      path: '/'
+      path: '/mcp'
       fullPath: '/mcp/'
       preLoaderRoute: typeof McpIndexRouteImport
-      parentRoute: typeof McpRoute
+      parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -148,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   DotwellKnownSplatRoute: DotwellKnownSplatRoute,
   PublicConsentRoute: PublicConsentRoute,
   PublicSignInRoute: PublicSignInRoute,
+  McpIndexRoute: McpIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
