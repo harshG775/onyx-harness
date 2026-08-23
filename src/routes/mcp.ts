@@ -5,7 +5,7 @@ import { z } from "zod"
 
 function createServer(): McpServer {
     const server = new McpServer({
-        name: "obsidian-vault-server",
+        name: "onyx-harness",
         version: "1.0.0",
     })
 
