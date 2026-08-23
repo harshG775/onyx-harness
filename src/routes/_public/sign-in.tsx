@@ -91,7 +91,13 @@ function Login() {
             return
         }
 
-        if (data.token && "redirect" in data && data.redirect) return
+        if ("redirect" in data && data.redirect) return
+
+        if (client_id) {
+            window.location.href = `/api/auth/oauth2/authorize${window.location.search}`
+            return
+        }
+
         navigate({ to: "/" })
     }
 
