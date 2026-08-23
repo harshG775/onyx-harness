@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
 import { authClient } from "#/lib/auth/auth-client"
+import { fetchOAuthClientInfo } from "#/lib/auth/client-info"
+import type { OAuthClientInfo } from "#/lib/auth/client-info"
+import { AppIcon } from "#/components/app-icon"
+import { Spinner } from "#/components/ui/spinner"
 
 export const Route = createFileRoute("/_public/consent")({ component: Consent })
 
@@ -10,48 +14,6 @@ type SessionUser = {
     name: string
     email: string
     image?: string | null
-}
-
-type ClientInfo = {
-    client_id: string
-    client_name?: string
-    client_uri?: string
-    logo_uri?: string
-}
-
-async function fetchClientInfo(clientId: string, oauthQuery: string): Promise<ClientInfo | null> {
-    try {
-        const res = await fetch("/api/auth/oauth2/public-client-prelogin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify({ client_id: clientId, oauth_query: oauthQuery }),
-        })
-        if (!res.ok) return null
-        return await res.json()
-    } catch {
-        return null
-    }
-}
-
-function AppIcon({ name, logo }: { name: string; logo?: string }) {
-    if (logo) {
-        return (
-            <img
-                src={logo}
-                alt=""
-                className="h-14 w-14 shrink-0 rounded-full object-cover shadow-sm"
-            />
-        )
-    }
-    const initial = name.trim().charAt(0).toUpperCase() || "?"
-    return (
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-blue-700 text-xl font-semibold text-white shadow-sm">
-            {initial}
-        </div>
-    )
 }
 
 function UserRow({ user }: { user: SessionUser }) {
@@ -81,15 +43,6 @@ function CheckIcon() {
                 d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
                 clipRule="evenodd"
             />
-        </svg>
-    )
-}
-
-function Spinner({ className = "h-4 w-4" }: { className?: string }) {
-    return (
-        <svg className={`${className} animate-spin`} viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
         </svg>
     )
 }
@@ -127,14 +80,13 @@ function Consent() {
     const [clientId, setClientId] = useState("")
     const [scope, setScope] = useState("")
     const [user, setUser] = useState<SessionUser | null>(null)
-    const [clientInfo, setClientInfo] = useState<ClientInfo | null>(null)
+    const [clientInfo, setClientInfo] = useState<OAuthClientInfo | null>(null)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         let cancelled = false
 
         async function load() {
-            const rawQuery = window.location.search.slice(1)
             const params = new URLSearchParams(window.location.search)
             const cid = params.get("client_id") ?? ""
             setClientId(cid || "Unknown application")
@@ -142,12 +94,16 @@ function Consent() {
 
             const [{ data }, client] = await Promise.all([
                 authClient.getSession(),
-                cid ? fetchClientInfo(cid, rawQuery) : Promise.resolve(null),
+                cid ? fetchOAuthClientInfo(cid) : Promise.resolve(null),
             ])
             if (cancelled) return
-            if (data?.user) {
-                setUser({ name: data.user.name, email: data.user.email, image: data.user.image })
+
+            if (!data?.user) {
+                window.location.href = `/sign-in${window.location.search}`
+                return
             }
+
+            setUser({ name: data.user.name, email: data.user.email, image: data.user.image })
             if (client) setClientInfo(client)
             setStatus("ready")
         }
@@ -162,25 +118,15 @@ function Consent() {
         setStatus(accept ? "allowing" : "denying")
         setError(null)
 
-        const res = await fetch("/api/auth/oauth2/consent", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify({ accept, oauth_query: window.location.search.slice(1) }),
-        })
+        const { error: apiError } = await authClient.oauth2.consent({ accept })
 
-        const data = await res.json()
-
-        if (!res.ok) {
+        if (apiError) {
             setStatus("ready")
-            setError(data.message ?? "Something went wrong")
+            setError(apiError.message ?? "Something went wrong")
             return
         }
 
         setStatus("redirecting")
-        window.location.href = data.url
     }
 
     if (status === "loading") {
