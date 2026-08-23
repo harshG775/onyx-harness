@@ -26,6 +26,7 @@ export const auth = betterAuth({
             resource: MCP_RESOURCE,
             allowDynamicClientRegistration: true,
             allowUnauthenticatedClientRegistration: true,
+            allowPublicClientPrelogin: true,
         }),
         tanstackStartCookies(),
     ],
