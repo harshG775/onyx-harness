@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm"
-import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core"
+import { sqliteTable, text, integer, index, uniqueIndex } from "drizzle-orm/sqlite-core"
 
 export const user = sqliteTable("user", {
     id: text("id").primaryKey(),
@@ -41,6 +41,7 @@ export const account = sqliteTable(
     "account",
     {
         id: text("id").primaryKey(),
+        issuer: text("issuer").notNull(),
         accountId: text("account_id").notNull(),
         providerId: text("provider_id").notNull(),
         userId: text("user_id")
@@ -64,7 +65,10 @@ export const account = sqliteTable(
             .$onUpdate(() => /* @__PURE__ */ new Date())
             .notNull(),
     },
-    (table) => [index("account_userId_idx").on(table.userId)],
+    (table) => [
+        uniqueIndex("account_issuer_accountId_uidx").on(table.issuer, table.accountId),
+        index("account_userId_idx").on(table.userId),
+    ],
 )
 
 export const verification = sqliteTable(
@@ -176,6 +180,7 @@ export const oauthClientResource = sqliteTable(
         createdAt: integer("created_at", { mode: "timestamp_ms" }),
     },
     (table) => [
+        uniqueIndex("oauthClientResource_clientId_resourceId_uidx").on(table.clientId, table.resourceId),
         index("oauthClientResource_clientId_idx").on(table.clientId),
         index("oauthClientResource_resourceId_idx").on(table.resourceId),
     ],
@@ -201,8 +206,8 @@ export const oauthRefreshToken = sqliteTable(
         requestedUserInfoClaims: text("requested_user_info_claims", {
             mode: "json",
         }),
-        expiresAt: integer("expires_at", { mode: "timestamp_ms" }),
-        createdAt: integer("created_at", { mode: "timestamp_ms" }),
+        expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+        createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
         revoked: integer("revoked", { mode: "timestamp_ms" }),
         rotatedAt: integer("rotated_at", { mode: "timestamp_ms" }),
         rotationReplayResponse: text("rotation_replay_response"),
@@ -225,7 +230,7 @@ export const oauthAccessToken = sqliteTable(
     "oauth_access_token",
     {
         id: text("id").primaryKey(),
-        token: text("token").unique(),
+        token: text("token").notNull().unique(),
         clientId: text("client_id")
             .notNull()
             .references(() => oauthClient.clientId, { onDelete: "cascade" }),
@@ -242,8 +247,8 @@ export const oauthAccessToken = sqliteTable(
         refreshId: text("refresh_id").references(() => oauthRefreshToken.id, {
             onDelete: "cascade",
         }),
-        expiresAt: integer("expires_at", { mode: "timestamp_ms" }),
-        createdAt: integer("created_at", { mode: "timestamp_ms" }),
+        expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+        createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
         revoked: integer("revoked", { mode: "timestamp_ms" }),
         confirmation: text("confirmation", { mode: "json" }),
         scopes: text("scopes", { mode: "json" }).notNull(),
@@ -271,8 +276,8 @@ export const oauthConsent = sqliteTable(
             mode: "json",
         }),
         scopes: text("scopes", { mode: "json" }).notNull(),
-        createdAt: integer("created_at", { mode: "timestamp_ms" }),
-        updatedAt: integer("updated_at", { mode: "timestamp_ms" }),
+        createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+        updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
     },
     (table) => [
         index("oauthConsent_clientId_idx").on(table.clientId),

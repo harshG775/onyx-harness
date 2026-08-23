@@ -1,23 +1,46 @@
-import { defineRelations } from "drizzle-orm"
-
 import * as schema from "#/lib/db/schema"
+import { defineRelations } from "drizzle-orm"
 
 export const relations = defineRelations(schema, (r) => ({
     user: {
-        sessions: r.many.session(),
-        accounts: r.many.account(),
-        oauthClients: r.many.oauthClient(),
-        oauthRefreshTokens: r.many.oauthRefreshToken(),
-        oauthAccessTokens: r.many.oauthAccessToken(),
-        oauthConsents: r.many.oauthConsent(),
+        sessions: r.many.session({
+            from: r.user.id,
+            to: r.session.userId,
+        }),
+        accounts: r.many.account({
+            from: r.user.id,
+            to: r.account.userId,
+        }),
+        oauthClients: r.many.oauthClient({
+            from: r.user.id,
+            to: r.oauthClient.userId,
+        }),
+        oauthRefreshTokens: r.many.oauthRefreshToken({
+            from: r.user.id,
+            to: r.oauthRefreshToken.userId,
+        }),
+        oauthAccessTokens: r.many.oauthAccessToken({
+            from: r.user.id,
+            to: r.oauthAccessToken.userId,
+        }),
+        oauthConsents: r.many.oauthConsent({
+            from: r.user.id,
+            to: r.oauthConsent.userId,
+        }),
     },
     session: {
         user: r.one.user({
             from: r.session.userId,
             to: r.user.id,
         }),
-        oauthRefreshTokens: r.many.oauthRefreshToken(),
-        oauthAccessTokens: r.many.oauthAccessToken(),
+        oauthRefreshTokens: r.many.oauthRefreshToken({
+            from: r.session.id,
+            to: r.oauthRefreshToken.sessionId,
+        }),
+        oauthAccessTokens: r.many.oauthAccessToken({
+            from: r.session.id,
+            to: r.oauthAccessToken.sessionId,
+        }),
     },
     account: {
         user: r.one.user({
@@ -30,13 +53,28 @@ export const relations = defineRelations(schema, (r) => ({
             from: r.oauthClient.userId,
             to: r.user.id,
         }),
-        oauthClientResources: r.many.oauthClientResource(),
-        oauthRefreshTokens: r.many.oauthRefreshToken(),
-        oauthAccessTokens: r.many.oauthAccessToken(),
-        oauthConsents: r.many.oauthConsent(),
+        oauthClientResources: r.many.oauthClientResource({
+            from: r.oauthClient.clientId,
+            to: r.oauthClientResource.clientId,
+        }),
+        oauthRefreshTokens: r.many.oauthRefreshToken({
+            from: r.oauthClient.clientId,
+            to: r.oauthRefreshToken.clientId,
+        }),
+        oauthAccessTokens: r.many.oauthAccessToken({
+            from: r.oauthClient.clientId,
+            to: r.oauthAccessToken.clientId,
+        }),
+        oauthConsents: r.many.oauthConsent({
+            from: r.oauthClient.clientId,
+            to: r.oauthConsent.clientId,
+        }),
     },
     oauthResource: {
-        oauthClientResources: r.many.oauthClientResource(),
+        oauthClientResources: r.many.oauthClientResource({
+            from: r.oauthResource.identifier,
+            to: r.oauthClientResource.resourceId,
+        }),
     },
     oauthClientResource: {
         oauthClient: r.one.oauthClient({
@@ -61,7 +99,10 @@ export const relations = defineRelations(schema, (r) => ({
             from: r.oauthRefreshToken.userId,
             to: r.user.id,
         }),
-        oauthAccessTokens: r.many.oauthAccessToken(),
+        oauthAccessTokens: r.many.oauthAccessToken({
+            from: r.oauthRefreshToken.id,
+            to: r.oauthAccessToken.refreshId,
+        }),
     },
     oauthAccessToken: {
         oauthClient: r.one.oauthClient({
