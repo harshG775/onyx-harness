@@ -10,20 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as McpRouteImport } from './routes/mcp'
 import { Route as DotwellKnownSplatRouteImport } from './routes/[.]well-known/$'
 import { Route as PublicConsentRouteImport } from './routes/_public/consent'
 import { Route as PublicSignInRouteImport } from './routes/_public/sign-in'
+import { Route as McpIndexRouteImport } from './routes/mcp/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DotwellKnownSplatRoute = DotwellKnownSplatRouteImport.update({
@@ -41,6 +36,11 @@ const PublicSignInRoute = PublicSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const McpIndexRoute = McpIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => McpRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -49,48 +49,47 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/mcp': typeof McpRoute
   '/.well-known/$': typeof DotwellKnownSplatRoute
   '/consent': typeof PublicConsentRoute
   '/sign-in': typeof PublicSignInRoute
+  '/mcp/': typeof McpIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/mcp': typeof McpRoute
   '/.well-known/$': typeof DotwellKnownSplatRoute
   '/consent': typeof PublicConsentRoute
   '/sign-in': typeof PublicSignInRoute
+  '/mcp': typeof McpIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/mcp': typeof McpRoute
   '/.well-known/$': typeof DotwellKnownSplatRoute
   '/_public/consent': typeof PublicConsentRoute
   '/_public/sign-in': typeof PublicSignInRoute
+  '/mcp/': typeof McpIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/mcp' | '/.well-known/$' | '/consent' | '/sign-in' | '/api/auth/$'
+    '/' | '/.well-known/$' | '/consent' | '/sign-in' | '/mcp/' | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/mcp' | '/.well-known/$' | '/consent' | '/sign-in' | '/api/auth/$'
+  to: '/' | '/.well-known/$' | '/consent' | '/sign-in' | '/mcp' | '/api/auth/$'
   id:
     | '__root__'
     | '/'
-    | '/mcp'
     | '/.well-known/$'
     | '/_public/consent'
     | '/_public/sign-in'
+    | '/mcp/'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  McpRoute: typeof McpRoute
   DotwellKnownSplatRoute: typeof DotwellKnownSplatRoute
   PublicConsentRoute: typeof PublicConsentRoute
   PublicSignInRoute: typeof PublicSignInRoute
@@ -104,13 +103,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/$': {
@@ -134,6 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mcp/': {
+      id: '/mcp/'
+      path: '/'
+      fullPath: '/mcp/'
+      preLoaderRoute: typeof McpIndexRouteImport
+      parentRoute: typeof McpRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -146,7 +145,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  McpRoute: McpRoute,
   DotwellKnownSplatRoute: DotwellKnownSplatRoute,
   PublicConsentRoute: PublicConsentRoute,
   PublicSignInRoute: PublicSignInRoute,

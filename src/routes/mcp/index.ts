@@ -5,7 +5,7 @@ import { requireMcpAuth } from "@better-auth/mcp"
 import { z } from "zod"
 import { auth, MCP_RESOURCE } from "#/lib/auth"
 
-function createServer(): McpServer {
+function createMCPServer(): McpServer {
     const server = new McpServer({
         name: "onyx-harness",
         version: "1.0.0",
@@ -32,14 +32,14 @@ const handleMcpRequest = requireMcpAuth(
         const transport = new WebStandardStreamableHTTPServerTransport({
             sessionIdGenerator: undefined,
         })
-        const server = createServer()
+        const server = createMCPServer()
         await server.connect(transport)
         return transport.handleRequest(request)
     },
     { resource: MCP_RESOURCE },
 )
 
-export const Route = createFileRoute("/mcp")({
+export const Route = createFileRoute("/mcp/")({
     server: {
         handlers: {
             POST: async ({ request }) => handleMcpRequest(request),
